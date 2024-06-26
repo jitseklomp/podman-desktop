@@ -228,6 +228,7 @@ export class ColorRegistry {
   }
 
   protected initColors(): void {
+    this.initNotificationDot();
     this.initGlobalNav();
     this.initSecondaryNav();
     this.initTitlebar();
@@ -248,6 +249,15 @@ export class ColorRegistry {
     this.initDropdown();
     this.initLabel();
     this.initStatusColors();
+    this.initFormPage();
+    this.initStatusBar();
+  }
+
+  protected initNotificationDot(): void {
+    this.registerColor('notification-dot', {
+      dark: colorPalette.purple[500],
+      light: colorPalette.purple[600],
+    });
   }
 
   protected initGlobalNav(): void {
@@ -257,10 +267,6 @@ export class ColorRegistry {
     this.registerColor(`${glNav}bg`, {
       dark: colorPalette.charcoal[600],
       light: colorPalette.gray[100],
-    });
-    this.registerColor(`${glNav}icon-notification-dot`, {
-      dark: colorPalette.purple[500],
-      light: colorPalette.purple[600],
     });
     this.registerColor(`${glNav}icon`, {
       dark: colorPalette.gray[600],
@@ -353,11 +359,6 @@ export class ColorRegistry {
       light: colorPalette.purple[600],
     });
 
-    this.registerColor(`${sNav}icon-notification-dot`, {
-      dark: colorPalette.purple[500],
-      light: colorPalette.purple[600],
-    });
-
     this.registerColor(`${sNav}expander`, {
       dark: colorPalette.white,
       light: colorPalette.charcoal[700],
@@ -444,6 +445,11 @@ export class ColorRegistry {
     this.registerColor(`${ct}header`, {
       dark: colorPalette.white,
       light: colorPalette.charcoal[900],
+    });
+
+    this.registerColor(`${ct}text`, {
+      dark: colorPalette.gray[700],
+      light: colorPalette.gray[900],
     });
 
     this.registerColor(`${ct}sub-header`, {
@@ -716,12 +722,12 @@ export class ColorRegistry {
     // color for most text in tables
     this.registerColor(`${tab}body-text`, {
       dark: colorPalette.gray[700],
-      light: colorPalette.charcoal[300],
+      light: colorPalette.charcoal[100],
     });
     // color for the text in the main column of the table (generally Name)
     this.registerColor(`${tab}body-text-highlight`, {
       dark: colorPalette.gray[300],
-      light: colorPalette.charcoal[300],
+      light: colorPalette.charcoal[700],
     });
     // color for the text in second line of main column, in secondary color (generally IDs)
     this.registerColor(`${tab}body-text-sub-secondary`, {
@@ -764,6 +770,18 @@ export class ColorRegistry {
     this.registerColor(`${details}bg`, {
       dark: colorPalette.charcoal[900],
       light: colorPalette.gray[50],
+    });
+    this.registerColor(`${details}card-bg`, {
+      dark: colorPalette.charcoal[600],
+      light: colorPalette.gray[300],
+    });
+    this.registerColor(`${details}card-header`, {
+      dark: colorPalette.gray[700],
+      light: colorPalette.charcoal[300],
+    });
+    this.registerColor(`${details}card-text`, {
+      dark: colorPalette.white,
+      light: colorPalette.charcoal[900],
     });
   }
 
@@ -1027,10 +1045,15 @@ export class ColorRegistry {
 
   protected initDropdown(): void {
     const dropdown = 'dropdown-';
+    const select = 'select-';
 
     this.registerColor(`${dropdown}bg`, {
       dark: colorPalette.charcoal[600],
       light: colorPalette.gray[100],
+    });
+    this.registerColor(`${select}bg`, {
+      dark: colorPalette.charcoal[800],
+      light: colorPalette.gray[300],
     });
     this.registerColor(`${dropdown}ring`, {
       dark: colorPalette.purple[900],
@@ -1148,6 +1171,53 @@ export class ColorRegistry {
     this.registerColor(`${status}disconnected`, {
       dark: colorPalette.gray[500],
       light: colorPalette.gray[800],
+    });
+    // Scaled / updated, use blue as it's a 'neutral' color
+    // to indicate that it's informative but not a problem
+    this.registerColor(`${status}updated`, {
+      dark: colorPalette.sky[500],
+      light: colorPalette.sky[500],
+    });
+    this.registerColor(`${status}ready`, {
+      dark: colorPalette.gray[900],
+      light: colorPalette.gray[100],
+    });
+  }
+
+  protected initFormPage(): void {
+    const formPage = 'formpage-';
+
+    this.registerColor(`${formPage}bg`, {
+      dark: colorPalette.charcoal[900],
+      light: colorPalette.gray[50],
+    });
+
+    this.registerColor(`${formPage}card-bg`, {
+      dark: colorPalette.charcoal[800],
+      light: colorPalette.gray[300],
+    });
+
+    this.registerColor(`${formPage}card-text`, {
+      dark: colorPalette.gray[400],
+      light: colorPalette.purple[900],
+    });
+  }
+
+  protected initStatusBar(): void {
+    const statusbar = 'statusbar-';
+    this.registerColor(`${statusbar}bg`, {
+      dark: colorPalette.purple[900],
+      light: colorPalette.purple[900],
+    });
+
+    this.registerColor(`${statusbar}hover-bg`, {
+      dark: colorPalette.purple[800],
+      light: colorPalette.purple[800],
+    });
+
+    this.registerColor(`${statusbar}text`, {
+      dark: colorPalette.white,
+      light: colorPalette.white,
     });
   }
 }

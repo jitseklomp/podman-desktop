@@ -32,6 +32,7 @@ import type {
   V1Ingress,
   V1NamespaceList,
   V1Node,
+  V1PersistentVolumeClaim,
   V1Pod,
   V1PodList,
   V1Service,
@@ -338,7 +339,9 @@ export class PluginSystem {
         // send only when the UI is ready
         if (this.uiReady && this.isReady) {
           flushQueuedEvents();
-          webContents.send('api-sender', channel, data);
+          if (!webContents.isDestroyed()) {
+            webContents.send('api-sender', channel, data);
+          }
         } else {
           // add to the queue
           queuedEvents.push({ channel, data });
@@ -421,7 +424,7 @@ export class PluginSystem {
     const statusBarRegistry = new StatusBarRegistry(apiSender);
 
     const safeStorageRegistry = new SafeStorageRegistry(directories);
-    await safeStorageRegistry.init();
+    notifications.push(...(await safeStorageRegistry.init()));
 
     const configurationRegistry = new ConfigurationRegistry(apiSender, directories);
     notifications.push(...configurationRegistry.init());
@@ -1846,6 +1849,10 @@ export class PluginSystem {
       return kubernetesClient.deleteDeployment(name);
     });
 
+    this.ipcHandle('kubernetes-client:deletePersistentVolumeClaim', async (_listener, name: string): Promise<void> => {
+      return kubernetesClient.deletePersistentVolumeClaim(name);
+    });
+
     this.ipcHandle('kubernetes-client:deleteIngress', async (_listener, name: string): Promise<void> => {
       return kubernetesClient.deleteIngress(name);
     });
@@ -1857,6 +1864,13 @@ export class PluginSystem {
     this.ipcHandle('kubernetes-client:deleteService', async (_listener, name: string): Promise<void> => {
       return kubernetesClient.deleteService(name);
     });
+
+    this.ipcHandle(
+      'kubernetes-client:readNamespacedPersistentVolumeClaim',
+      async (_listener, name: string, namespace: string): Promise<V1PersistentVolumeClaim | undefined> => {
+        return kubernetesClient.readNamespacedPersistentVolumeClaim(name, namespace);
+      },
+    );
 
     this.ipcHandle(
       'kubernetes-client:readNamespacedDeployment',

@@ -1,5 +1,5 @@
 /**********************************************************************
- * Copyright (C) 2023 Red Hat, Inc.
+ * Copyright (C) 2024 Red Hat, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,28 +21,22 @@ import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/svelte';
 import { expect, test } from 'vitest';
 
-import PodColumnAge from './PodColumnAge.svelte';
-import type { PodInfoUI } from './PodInfoUI';
+import PVCColumnMode from './PVCColumnMode.svelte';
 
-const pod: PodInfoUI = {
-  id: 'pod-id',
-  shortId: '',
-  name: '',
-  engineId: '',
-  engineName: '',
-  status: '',
-  age: '2 days',
-  created: '',
+const fakePVC = {
+  name: 'my-pvc',
+  namespace: 'default',
+  status: 'Available',
+  volume: '1Gi',
+  accessModes: ['ReadWriteOnce'],
+  storageClass: 'standard',
+  size: '1Gi',
   selected: false,
-  containers: [],
-  kind: 'podman',
 };
 
-test('Expect simple column styling', async () => {
-  render(PodColumnAge, { object: pod });
+test('Expect mode display', async () => {
+  render(PVCColumnMode, { object: fakePVC });
 
-  const text = screen.getByText(pod.age);
+  const text = screen.getByText('ReadWriteOnce');
   expect(text).toBeInTheDocument();
-  expect(text).toHaveClass('text-sm');
-  expect(text).toHaveClass('text-[var(--pd-table-body-text-highlight)]');
 });
